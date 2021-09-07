@@ -1,0 +1,2 @@
+#pragma once
+#define HOMEWORK_VERSION @CMAKE_PROJECT_VERSION@
