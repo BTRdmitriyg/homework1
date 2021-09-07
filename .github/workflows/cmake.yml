@@ -21,6 +21,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+  - name: Download and install Boost
+    # You may pin to the exact commit or the version.
+    # uses: MarkusJx/install-boost@2bf304a698f42c126fc8eaf1ba4e47120e1ab5b9
+    uses: MarkusJx/install-boost@v2.0.0
+    with:
+      # The boost version to install, e.g. "1.73.0"
+      boost_version: 
+      # The toolset used to compile boost, e.g. "msvc14.2". May only be used on windows
+      toolset: # optional, default is 
+      # The platform version boost was compiled on, e.g. "18.04". May only be used on linux
+      platform_version: # optional, default is 
+      # The dirctory to install boost into
+      boost_install_dir: # optional, default is 
+
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
