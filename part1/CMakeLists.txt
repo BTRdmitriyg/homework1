@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(Part1 VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
+project(Part1 VERSION $ENV{GITHUB_RUN_NUMBER})
 
 configure_file(versions.h.in versions.h)
 
