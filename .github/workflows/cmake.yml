@@ -21,26 +21,32 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Download and install Boost
-      # You may pin to the exact commit or the version.
-      # uses: MarkusJx/install-boost@2bf304a698f42c126fc8eaf1ba4e47120e1ab5b9
-      uses: MarkusJx/install-boost@v2.0.0
-      with:
-        # The boost version to install, e.g. "1.73.0"
-        boost_version: 1.73.0
-
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake ${{github.workspace}}/part1 -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake ${{github.workspace}}/part1
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/part1 --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/part1
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}}
-      
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./helloworld-0.0.${{ github.run_number }}-Linux.deb
+        asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb
+        asset_content_type: application/vnd.debian.binary-package
