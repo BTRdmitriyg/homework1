@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/part1
+      run: cmake --build ${{github.workspace}}
 
     - name: Create Release
       id: create_release
